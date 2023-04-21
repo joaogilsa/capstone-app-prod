@@ -87,7 +87,10 @@ def search_result():
         p.predicted_outcome = p.outcome
         p.outcome = payload['outcome']
         p.save()
-        return jsonify(model_to_dict(p))
+        response = {'observation_id':p.observation_id,
+                    'outcome': p.outcome,
+                    'predicted_outcome': p.predicted_outcome}
+        return jsonify(response))
     except Prediction.DoesNotExist:
         error_msg = 'Observation ID: "{}" does not exist'.format(payload['observation_id'])
         return jsonify({'error': error_msg})
