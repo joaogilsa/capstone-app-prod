@@ -90,7 +90,7 @@ def search_result():
         response = {'observation_id':p.observation_id,
                     'outcome': p.outcome,
                     'predicted_outcome': p.predicted_outcome}
-        return jsonify(response))
+        return jsonify(response)
     except Prediction.DoesNotExist:
         error_msg = 'Observation ID: "{}" does not exist'.format(payload['observation_id'])
         return jsonify({'error': error_msg})
