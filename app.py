@@ -19,7 +19,7 @@ from playhouse.shortcuts import model_to_dict
 DB = connect(os.environ.get('DATABASE_URL') or 'sqlite:///predictions.db')
 
 class Prediction(Model):
-    observation_id = IntegerField(unique=True)
+    observation_id = TextField(unique=True)
     observation = TextField()
     proba = FloatField()
     outcome = TextField(null=True)
