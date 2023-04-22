@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify
 import random
 import os
 from playhouse.db_url import connect
-
+import requests
 from peewee import (
     SqliteDatabase, PostgresqlDatabase, Model, IntegerField,
     FloatField, TextField, IntegrityError
@@ -49,6 +49,11 @@ app = Flask(__name__)
 @app.route('/should_search', methods = ['POST'])
 def should_search():
     payload = request.get_json()
+
+    #backup request
+    url = f"https://capstone-backup-production.up.railway.app/save_request"
+    requests.post(url, json=payload)
+
     observation_id = payload['observation_id']
     observation = payload
     # obs = pd.DataFrame([payload], columns = columns).asastype(dtypes)
