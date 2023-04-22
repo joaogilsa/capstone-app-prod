@@ -19,7 +19,7 @@ from playhouse.shortcuts import model_to_dict
 DB = connect(os.environ.get('DATABASE_URL') or 'sqlite:///predictions.db')
 
 class Prediction(Model):
-    observation_id = TextField(unique=True)
+    observation_id = TextField()
     observation = TextField()
     proba = FloatField()
     outcome = TextField(null=True)
@@ -76,7 +76,7 @@ def should_search():
     try:
         p.save()
     except IntegrityError:
-        error_msg = "ERROR: Observation ID: '{}' already exists".format(_id)
+        error_msg = "ERROR: Observation ID: '{}' already exists".format(observation_id)
         response["error"] = error_msg
         print(error_msg)
         DB.rollback()
