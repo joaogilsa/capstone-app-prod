@@ -51,7 +51,7 @@ def should_search():
     payload = request.get_json()
 
     #backup request
-    url = f"https://capstone-backup-production.up.railway.app/save_request"
+    url = os.environ.get('BACKUP_URL') #f"https://capstone-backup-production.up.railway.app/save_request"
     requests.post(url, json=payload)
 
     observation_id = payload['observation_id']
