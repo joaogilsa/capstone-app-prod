@@ -57,7 +57,7 @@ pipeline = joblib.load('pipeline.pickle')
 
 app = Flask(__name__)
 
-@app.route('/should_search', methods = ['POST'])
+@app.route('/should_search/', methods = ['POST'])
 def should_search():
     
     payload = request.get_json()
@@ -164,7 +164,7 @@ def should_search():
     return jsonify(response)
 
 
-@app.route('/search_result', methods = ['POST'])
+@app.route('/search_result/', methods = ['POST'])
 def search_result():
     payload = request.get_json()
     try:
