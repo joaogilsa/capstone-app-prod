@@ -66,6 +66,7 @@ def should_search():
     #backup request
     url = os.environ.get('BACKUP_URL') #f"https://capstone-backup-production.up.railway.app/save_request"
     requests.post(url, json=payload)
+
     try:
         payload['observation_id']
     except:
@@ -167,6 +168,11 @@ def should_search():
 @app.route('/search_result/', methods = ['POST'])
 def search_result():
     payload = request.get_json()
+
+        #backup request
+    url = os.environ.get('BACKUP_URL') #f"https://capstone-backup-production.up.railway.app/save_request"
+    requests.post(url, json=payload)
+
     try:
         p = Prediction.get(Prediction.observation_id == payload['observation_id'])
         p.outcome = payload['outcome']
