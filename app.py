@@ -1,6 +1,7 @@
 import joblib
 import json
 import pickle
+import requests
 import pandas as pd
 from flask import Flask, request, jsonify
 import random
