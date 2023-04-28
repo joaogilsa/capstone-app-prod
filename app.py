@@ -69,66 +69,79 @@ def should_search():
 
     try:
         payload['observation_id']
+        print(payload['observation_id'])
     except:
-        response = {'observation_id': None, 
-                    'error': 'Observation_id is missing.'}
-        return jsonify(response)
+        # response = {'observation_id': None, 
+        #             'error': 'Observation_id is missing.'}
+        # return jsonify(response)
+        abort(405, description='Mising observation_id')
     
     observation_id = payload['observation_id']
     observation = payload
     
-    if len(observation) < 12:
-        response = {'observation_id': observation_id,
-                    'error': 'There is data missing.'}
-        return jsonify(response)
+    if len(observation) < 12: 
+        # response = {'observation_id': observation_id,
+        #             'error': 'Observation data has extra information, please revise.'}
+        # return jsonify(response)
+        abort(405, description='Incorrect or missing data.')
+        
     
     if len(observation) > 12:
-        response = {'observation_id': observation_id,
-                    'error': 'Observation data has extra information, please revise.'}
-        return jsonify(response)
+        # response = {'observation_id': observation_id,
+        #             'error': 'Observation data has extra information, please revise.'}
+        # return jsonify(response)
+        abort(405, description='Incorrect or missing data.')
     
     age_options = ['25-34', 'over 34', '10-17', '18-24', 'under 10']
     if observation['Age range'] not in age_options:
-        response = {'observation_id': observation_id,
-                    'error': 'Age range is invalid.'}
-        return jsonify(response)
+        # response = {'observation_id': observation_id,
+        #             'error': 'Age range is invalid.'}
+        # return jsonify(response)
+        abort(405, description='Invalid age range.')
 
     if observation['Gender'] not in ['Male','Female','Other']:
-        response = {'observation_id': observation_id,
-                    'error': 'Please revise the Gender data.'}
-        return jsonify(response)
+        # response = {'observation_id': observation_id,
+        #             'error': 'Please revise the Gender data.'}
+        # return jsonify(response)
+        abort(405, description='Invalid gender data.')
+
 
     if observation['Type'] not in ['Person search', 'Person and Vehicle search', 'Vehicle search']:
-        response = {'observation_id': observation_id,
-                    'error': 'Type of search is invalid.'}
-        return jsonify(response)
+        # response = {'observation_id': observation_id,
+        #             'error': 'Type of search is invalid.'}
+        # return jsonify(response)
+        abort(405, description='Invalid type of search data.')
     
     
     try:
         pd.to_datetime(observation['Date'],infer_datetime_format=True)
     except:
-        response = {'observation_id': None, 
-                    'error': 'Date field is invalid.'}
-        return jsonify(response)
+        # response = {'observation_id': None, 
+        #             'error': 'Date field is invalid.'}
+        # return jsonify(response)
+        abort(405, description='Invalid date data.')
     
     if observation['Officer-defined ethnicity'] not in ['White', 'Other', 'Asian', 'Black', 'Mixed']:
-        response = {'observation_id': observation_id,
-                    'error': 'Please revise the ethnicity data to one of the possible options (White, Other, Asian, Black, Mixed).'}
-        return jsonify(response)
+        # response = {'observation_id': observation_id,
+        #             'error': 'Please revise the ethnicity data to one of the possible options (White, Other, Asian, Black, Mixed).'}
+        # return jsonify(response)
+        abort(405, description='Invalid ethnicity data.')
 
     try:
         float(observation['Longitude'])
     except:
-        response = {'observation_id': None, 
-                    'error': 'something is wrong with the Longitude, please revise'}
-        return jsonify(response)
+        # response = {'observation_id': None, 
+        #             'error': 'something is wrong with the Longitude, please revise'}
+        # return jsonify(response)
+        abort(405, description='Invalid longitude data.')
     
     try:
         float(observation['Latitude'])
     except:
-        response = {'observation_id': None, 
-                    'error': 'something is wrong with the Latitude, please revise'}
-        return jsonify(response)
+        # response = {'observation_id': None, 
+        #             'error': 'something is wrong with the Latitude, please revise'}
+        # return jsonify(response)
+        abort(405, description='Invalid latitude data.')
     
 
     obs = pd.DataFrame([payload], columns = columns).astype(dtypes)
