@@ -9,7 +9,7 @@ import os
 from playhouse.db_url import connect
 from peewee import (
     SqliteDatabase, PostgresqlDatabase, Model, IntegerField,
-    FloatField, TextField, IntegrityError
+    FloatField, TextField, IntegrityError, DateTimeField
 )
 from playhouse.shortcuts import model_to_dict
 import sklearn
