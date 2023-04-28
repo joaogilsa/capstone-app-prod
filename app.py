@@ -42,7 +42,6 @@ DB.create_tables([Received], safe=True)
 
 
 # Reading Latitude/Longitude dictionaries
-
 with open(os.path.join("data", "lat_dict.json")) as json_file:
 
     lat_dict = json.load(json_file)
@@ -52,19 +51,17 @@ with open(os.path.join("data", "long_dict.json")) as json_file:
 
 
 #Unpickling
-
 with open('columns.json') as fh:
 
-    columns = json.load(fh)
-    
+    columns = json.load(fh) 
 
 with open('dtypes.pickle', 'rb') as fh:
     dtypes = pickle.load(fh)
 
 pipeline = joblib.load('pipeline.pickle')
 
-# Server
 
+# Server
 app = Flask(__name__)
 
 @app.route('/should_search/', methods = ['POST'])
@@ -79,7 +76,7 @@ def should_search():
         r.save()
     except:
         pass
-
+    
     try:
         payload['observation_id']
         print(payload['observation_id'])
@@ -210,8 +207,10 @@ def search_result():
                     'predicted_outcome': p.predicted_outcome}
         return jsonify(response)
     except Prediction.DoesNotExist:
-        error_msg = 'Observation ID: "{}" does not exist'.format(payload['observation_id'])
-        return jsonify({'error': error_msg})
+        # error_msg = 'Observation ID: "{}" does not exist'.format(payload['observation_id'])
+        # return jsonify({'error': error_msg})
+        abort(405, description='Invalid ID supplied.')
+
     
     # observation_id = payload['observation_id']
     # outcome = payload['outcome']
