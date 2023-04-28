@@ -162,11 +162,10 @@ def should_search():
     proba = pipeline.predict_proba(obs)[0,1]
     #proba = random.randint(0,1)
     outcome = 'False'
-    if proba >= 0.5:
+    if proba >= 0.1:
         outcome = 'True'
     
     response = {
-        'observation_id': observation_id,
         'outcome': outcome
     }
     
