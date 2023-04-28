@@ -3,7 +3,7 @@ import json
 import pickle
 import requests
 import pandas as pd
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, abort
 import random
 import os
 from playhouse.db_url import connect
@@ -13,6 +13,7 @@ from peewee import (
 )
 from playhouse.shortcuts import model_to_dict
 import sklearn
+from datetime import datetime
 
 #Database
 
@@ -29,6 +30,16 @@ class Prediction(Model):
         database = DB
 
 DB.create_tables([Prediction], safe=True)
+
+
+class Received(Model):
+    date_id = DateTimeField(default=datetime.now)
+    observation = TextField()
+
+    class Meta:
+        database = DB
+
+DB.create_tables([Received], safe=True)
 
 
 # Reading Latitude/Longitude dictionaries
@@ -63,9 +74,12 @@ def should_search():
     payload = request.get_json()
     response = {}
     
-    #backup request
-    url = os.environ.get('BACKUP_URL') #f"https://capstone-backup-production.up.railway.app/save_request"
-    requests.post(url, json=payload)
+    r = Received(observation = payload)
+
+    try:
+        r.save()
+    except:
+        pass
 
     try:
         payload['observation_id']
@@ -182,9 +196,12 @@ def should_search():
 def search_result():
     payload = request.get_json()
 
-        #backup request
-    url = os.environ.get('BACKUP_URL') #f"https://capstone-backup-production.up.railway.app/save_request"
-    requests.post(url, json=payload)
+    r = Received(observation = payload)
+
+    try:
+        r.save()
+    except:
+        pass
 
     try:
         p = Prediction.get(Prediction.observation_id == payload['observation_id'])
