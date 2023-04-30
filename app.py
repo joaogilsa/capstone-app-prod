@@ -103,25 +103,24 @@ def should_search():
         abort(405, description='Incorrect or missing data.')
     
     age_options = ['25-34', 'over 34', '10-17', '18-24', 'under 10']
-    if observation['Age range'] not in age_options:
+    if observation['Age range'].lower() not in age_options:
         # response = {'observation_id': observation_id,
         #             'error': 'Age range is invalid.'}
         # return jsonify(response)
         abort(405, description='Invalid age range.')
 
-    if observation['Gender'] not in ['Male','Female','Other']:
+    if observation['Gender'].lower() not in ['male','female','other']:
         # response = {'observation_id': observation_id,
         #             'error': 'Please revise the Gender data.'}
         # return jsonify(response)
         abort(405, description='Invalid gender data.')
 
 
-    if observation['Type'] not in ['Person search', 'Person and Vehicle search', 'Vehicle search']:
+    if observation['Type'].lower() not in ['person search', 'person and vehicle search', 'vehicle search']:
         # response = {'observation_id': observation_id,
         #             'error': 'Type of search is invalid.'}
         # return jsonify(response)
         abort(405, description='Invalid type of search data.')
-    
     
     try:
         pd.to_datetime(observation['Date'],infer_datetime_format=True)
@@ -131,7 +130,7 @@ def should_search():
         # return jsonify(response)
         abort(405, description='Invalid date data.')
     
-    if observation['Officer-defined ethnicity'] not in ['White', 'Other', 'Asian', 'Black', 'Mixed']:
+    if observation['Officer-defined ethnicity'].lower() not in ['white', 'other', 'asian', 'black', 'mixed']:
         # response = {'observation_id': observation_id,
         #             'error': 'Please revise the ethnicity data to one of the possible options (White, Other, Asian, Black, Mixed).'}
         # return jsonify(response)
