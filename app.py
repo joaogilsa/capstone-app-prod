@@ -20,10 +20,19 @@ DB = connect(os.environ.get('DATABASE_URL') or 'sqlite:///predictions.db')
 
 class Prediction(Model):
     observation_id = TextField(unique=True)
-    observation = TextField()
+    longitude = FloatField()
+    latitude = FloatField()
+    age = TextField()
+    gender = TextField()
+    object_search = TextField()
+    station = TextField()
+    of_ethn = TextField()
+    type_search = TextField()
     proba = FloatField()
     outcome = TextField(null=False)
     predicted_outcome = TextField(null=False)
+    part_of_op = TextField(),
+    date = TextField()
 
     class Meta:
         database = DB
@@ -169,7 +178,16 @@ def should_search():
                    proba = proba,
                    outcome = outcome,
                    predicted_outcome = outcome,
-                   observation = observation)
+                   longitude = obs['Longitude'],
+                   latitude = obs['Latitude'],
+                   age = obs._get_value(index=0,col='Age range'),
+                   gender = obs._get_value(index=0,col='Gender'),
+                   object_search = obs._get_value(index=0,col='Object of search'),
+                   station = obs._get_value(index=0,col='station'),
+                   of_ethn = obs._get_value(index=0,col='Officer-defined ethnicity'),
+                   type_search = obs._get_value(index=0,col='Type'),
+                   part_of_op = obs._get_value(index=0,col='Part of a policing operation'),
+                   date = obs._get_value(index=0,col='Date'))
     
    
 
