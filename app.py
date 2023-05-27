@@ -20,6 +20,7 @@ DB = connect(os.environ.get('DATABASE_URL') or 'sqlite:///predictions.db')
 
 class Prediction(Model):
     observation_id = TextField(unique=True)
+    observation =  TextField();
     longitude = FloatField()
     latitude = FloatField()
     age = TextField()
@@ -175,6 +176,7 @@ def should_search():
     }
     
     p = Prediction(observation_id = observation_id,
+                   observation =  observation,
                    proba = proba,
                    outcome = outcome,
                    predicted_outcome = outcome,
