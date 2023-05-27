@@ -61,7 +61,7 @@ class DateTransformer(BaseEstimator,TransformerMixin):
     def transform(self, X,y=None):
         X_=X.copy()
         X_['Date'] = pd.to_datetime(X_['Date'],infer_datetime_format=True)
-        #needed for RFC
+
         X_['Month'] = X_['Date'].apply(lambda x:x.month)
         X_['Day'] = X_['Date'].apply(lambda x:x.day)
         X_['Year'] = X_['Date'].apply(lambda x:x.year)
