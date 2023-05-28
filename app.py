@@ -13,6 +13,7 @@ from peewee import (
 from playhouse.shortcuts import model_to_dict
 import sklearn
 from datetime import datetime
+import lightgbm as lgb
 
 #Database
 
